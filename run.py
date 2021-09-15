@@ -3,6 +3,7 @@
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -20,7 +21,8 @@ def get_sales_data():
     """
     Get sales figures input from the user
     Run a whileloop to collect a valid string of data from the user via
-    the terminal, which must be a string of 6 numbers separated by commas. The loop will repeatedly request data until it is valid.
+    the terminal, which must be a string of 6 numbers separated by commas. The
+    loop will repeatedly request data until it is valid.
     """
     while True:
         print('Please enter sales data from the most recent market!')
@@ -66,6 +68,28 @@ def update_sales_worksheet(data):
     print('Sales worksheet updated successfully!...\n')
 
 
-data = get_sales_data()
-sales_data = [int(num) for num in data]
-update_sales_worksheet(sales_data)
+def calculate_surplus_sandwiches(data):
+    """
+    Compare sales with stock and calculate the surplus for each sandwich type...
+    Surplus = sales - stock for that particular sandwich
+    - Positive surplus indicates waste
+    - Negative surplus indicates extra sandwiches made when stock was sold out
+    """
+    print('Calculating surplus sandwiches...\n')
+    stock = SHEET.worksheet('stock').get_all_values()
+    stock_row = stock[-1]
+    print(stock_row)
+
+
+def main():
+    """
+    All main fn calls go here...
+    """
+    data = get_sales_data()
+    sales_data = [int(num) for num in data]
+    update_sales_worksheet(sales_data)
+    calculate_surplus_sandwiches(sales_data)
+
+
+print('Welcome to Love Sandwiches data automation!\n')
+main()
