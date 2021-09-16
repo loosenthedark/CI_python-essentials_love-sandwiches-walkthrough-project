@@ -126,6 +126,7 @@ def get_average_sales(data):
     """
     Calculate average sales data (+10%) for each sandwich type
     """
+    print("Calculating stock data...\n")
     avg_sales = []
     for list in data:
         int_list_avg = sum(int(item) for item in list) / len(list)
@@ -147,7 +148,24 @@ def main():
     list_of_last_five_sales = get_last_five_sales_entries()
     stock_data = get_average_sales(list_of_last_five_sales)
     update_worksheet(stock_data, 'stock')
+    return stock_data
 
 
-print('Welcome to Love Sandwiches data automation!\n')
-main()
+print("Welcome to Love Sandwiches data automation.\n")
+stock_data = main()
+
+
+# Write you code below this comment
+def get_stock_values(data):
+    stock = SHEET.worksheet("stock")
+    headings = []
+    for ind in range(1, 7):
+        column = stock.col_values(ind)
+        headings.append(column[0])
+    dictionary = dict(zip(headings, data))
+    return dictionary
+
+
+stock_values = get_stock_values(stock_data)
+print("Make the following numbers of sandwiches for next market:\n")
+print(stock_values)
