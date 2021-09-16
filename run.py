@@ -124,6 +124,19 @@ def get_last_five_sales_entries():
     return list_of_last_fives
 
 
+def get_average_sales(data):
+    """
+    Calculate average sales data (+10%) for each sandwich type
+    """
+    avg_sales = []
+    for list in data:
+        int_list_avg = sum(int(item) for item in list) / len(list)
+        avg_plus_extra = round(int_list_avg * 1.1)
+        avg_sales.append(avg_plus_extra)
+
+    return avg_sales
+
+
 def main():
     """
     All main fn calls go here...
@@ -133,9 +146,10 @@ def main():
     update_worksheet(sales_data, 'sales')
     new_surplus_data = calculate_surplus_sandwiches(sales_data)
     update_worksheet(new_surplus_data, 'surplus')
+    list_of_last_five_sales = get_last_five_sales_entries()
+    stock_data = get_average_sales(list_of_last_five_sales)
+    update_worksheet(stock_data, 'stock')
 
 
 print('Welcome to Love Sandwiches data automation!\n')
-# main()
-list_of_last_five_sales = get_last_five_sales_entries()
-print(list_of_last_five_sales)
+main()
